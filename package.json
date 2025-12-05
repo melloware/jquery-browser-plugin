@@ -1,30 +1,53 @@
 {
-  "name": "jquery.browser",
-  "version": "0.1.0",
-  "authors": [
+  "name": "@melloware/jquery.browser",
+  "version": "1.0.0",
+  "author": "Melloware <mellowaredev@gmail.com>",
+  "contributors": [
     "Gabriel Cebrian <gabceb@gmail.com>",
     "jQuery Team <https://github.com/gabceb/jquery-browser-plugin/wiki/Authors>"
   ],
+  "files": [
+    "dist",
+    "README.md",
+    "MIT-LICENSE.txt"
+  ],
   "scripts": {
-    "test": "grunt test"
+    "build": "npm run build:types && npm run build:umd && npm run build:minify",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:umd": "esbuild src/jquery.browser.ts --bundle --format=iife --global-name=jQBrowser --outfile=dist/jquery.browser.js --banner:js=\"/*!\\n * jQuery Browser Plugin 1.0.0\\n * https://github.com/gabceb/jquery-browser-plugin\\n *\\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\\n * http://jquery.org/license\\n *\\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\\n * https://github.com/gabceb\\n *\\n * Released under the MIT license\\n */\"",
+    "build:minify": "esbuild dist/jquery.browser.js --minify --outfile=dist/jquery.browser.min.js --banner:js=\"/*!\\n * jQuery Browser Plugin 1.0.0\\n * https://github.com/gabceb/jquery-browser-plugin\\n *\\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\\n * http://jquery.org/license\\n *\\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\\n * https://github.com/gabceb\\n *\\n * Released under the MIT license\\n */\"",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
   },
   "description": "A jQuery plugin for browser detection.",
   "main": "dist/jquery.browser.js",
+  "module": "dist/jquery.browser.js",
+  "types": "dist/jquery.browser.d.ts",
   "repository": "git@github.com:gabceb/jquery-browser-plugin.git",
+  "keywords": [
+    "jquery",
+    "browser",
+    "detection",
+    "user-agent",
+    "typescript"
+  ],
   "devDependencies": {
-    "chai": "^1.10.0",
-    "grunt": "~0.4.0",
-    "grunt-browserify": "^3.2.1",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-uglify": "~0.2.7",
-    "grunt-exec": "~0.4.2",
-    "jquery": "^2.1.3",
-    "mocha": "^2.1.0",
-    "webserver": "^1.1.2"
+    "@types/jquery": "^3.5.33",
+    "@types/node": "^24.10.1",
+    "@vitest/ui": "^4.0.15",
+    "esbuild": "^0.27.1",
+    "jquery": "^3.7.0",
+    "jsdom": "^27.2.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.15"
+  },
+  "peerDependencies": {
+    "jquery": ">=1.9.0"
   },
   "license": "MIT",
   "engines": {
-    "node": ">= 0.4.0"
+    "node": ">= 20.0.0"
   }
 }

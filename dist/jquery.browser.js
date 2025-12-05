@@ -1,193 +1,131 @@
-/*!
- * jQuery Browser Plugin 0.1.0
- * https://github.com/gabceb/jquery-browser-plugin
- *
- * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors
- * http://jquery.org/license
- *
- * Modifications Copyright 2015 Gabriel Cebrian
- * https://github.com/gabceb
- *
- * Released under the MIT license
- *
- * Date: 05-07-2015
- */
-/*global window: false */
+/*!\n * jQuery Browser Plugin 1.0.0\n * https://github.com/gabceb/jquery-browser-plugin\n *\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\n * http://jquery.org/license\n *\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\n * https://github.com/gabceb\n *\n * Released under the MIT license\n */
+"use strict";
+var jQBrowser = (() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-(function (factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define(['jquery'], function ($) {
-      return factory($);
-    });
-  } else if (typeof module === 'object' && typeof module.exports === 'object') {
-    // Node-like environment
-    module.exports = factory(require('jquery'));
-  } else {
-    // Browser globals
-    factory(window.jQuery);
-  }
-}(function(jQuery) {
-  "use strict";
-
-  function uaMatch( ua ) {
-    // If an UA is not provided, default to the current browser UA.
-    if ( ua === undefined ) {
-      ua = window.navigator.userAgent;
+  // src/jquery.browser.ts
+  var jquery_browser_exports = {};
+  __export(jquery_browser_exports, {
+    default: () => jquery_browser_default,
+    uaMatch: () => uaMatch
+  });
+  function uaMatch(ua) {
+    if (ua === void 0) {
+      if (typeof window !== "undefined" && window.navigator) {
+        ua = window.navigator.userAgent;
+      } else {
+        ua = "";
+      }
     }
     ua = ua.toLowerCase();
-
-    var match = /(edge)\/([\w.]+)/.exec( ua ) ||
-        /(opr)[\/]([\w.]+)/.exec( ua ) ||
-        /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
-        /(iemobile)[\/]([\w.]+)/.exec( ua ) ||
-        /(version)(applewebkit)[ \/]([\w.]+).*(safari)[ \/]([\w.]+)/.exec( ua ) ||
-        /(webkit)[ \/]([\w.]+).*(version)[ \/]([\w.]+).*(safari)[ \/]([\w.]+)/.exec( ua ) ||
-        /(webkit)[ \/]([\w.]+)/.exec( ua ) ||
-        /(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
-        /(msie) ([\w.]+)/.exec( ua ) ||
-        ua.indexOf("trident") >= 0 && /(rv)(?::| )([\w.]+)/.exec( ua ) ||
-        ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
-        [];
-
-    var platform_match = /(ipad)/.exec( ua ) ||
-        /(ipod)/.exec( ua ) ||
-        /(windows phone)/.exec( ua ) ||
-        /(iphone)/.exec( ua ) ||
-        /(kindle)/.exec( ua ) ||
-        /(silk)/.exec( ua ) ||
-        /(android)/.exec( ua ) ||
-        /(win)/.exec( ua ) ||
-        /(mac)/.exec( ua ) ||
-        /(linux)/.exec( ua ) ||
-        /(cros)/.exec( ua ) ||
-        /(playbook)/.exec( ua ) ||
-        /(bb)/.exec( ua ) ||
-        /(blackberry)/.exec( ua ) ||
-        [];
-
-    var browser = {},
-        matched = {
-          browser: match[ 5 ] || match[ 3 ] || match[ 1 ] || "",
-          version: match[ 2 ] || match[ 4 ] || "0",
-          versionNumber: match[ 4 ] || match[ 2 ] || "0",
-          platform: platform_match[ 0 ] || ""
-        };
-
-    if ( matched.browser ) {
-      browser[ matched.browser ] = true;
+    const match = (
+      // Chromium Edge (Edg/EdgA/EdgIOS) - must come before Chrome to avoid false positives
+      /(edg|edga|edgios)\/([\w.]+)/.exec(ua) || // Legacy Edge (EdgeHTML) - must come before Chrome
+      /(edge)\/([\w.]+)/.exec(ua) || // Opera 15+ (OPR) - must come before Chrome
+      /(opr)[\/]([\w.]+)/.exec(ua) || // Chrome - must come before Safari
+      /(chrome)[ \/]([\w.]+)/.exec(ua) || // IE Mobile
+      /(iemobile)[\/]([\w.]+)/.exec(ua) || // Safari (with version) - specific pattern for Safari
+      /(version)(applewebkit)[ \/]([\w.]+).*(safari)[ \/]([\w.]+)/.exec(ua) || // Safari (alternative pattern)
+      /(webkit)[ \/]([\w.]+).*(version)[ \/]([\w.]+).*(safari)[ \/]([\w.]+)/.exec(ua) || // WebKit (generic) - catch-all for WebKit browsers
+      /(webkit)[ \/]([\w.]+)/.exec(ua) || // Opera (legacy Presto engine)
+      /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) || // IE (legacy MSIE token)
+      /(msie) ([\w.]+)/.exec(ua) || // IE 11 (Trident engine with rv: token)
+      ua.indexOf("trident") >= 0 && /(rv)(?::| )([\w.]+)/.exec(ua) || // Firefox (Gecko engine, not compatible mode)
+      ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) || []
+    );
+    const platform_match = /(ipad)/.exec(ua) || /(ipod)/.exec(ua) || /(windows phone)/.exec(ua) || /(iphone)/.exec(ua) || /(kindle)/.exec(ua) || /(silk)/.exec(ua) || /(android)/.exec(ua) || /(win)/.exec(ua) || /(mac)/.exec(ua) || /(linux)/.exec(ua) || /(cros)/.exec(ua) || /(playbook)/.exec(ua) || /(bb)/.exec(ua) || /(blackberry)/.exec(ua) || [];
+    const browser = {};
+    const browserName = match[1] === "edg" || match[1] === "edga" || match[1] === "edgios" ? "msedge" : match[5] || match[3] || match[1] || "";
+    const matched = {
+      browser: browserName,
+      version: match[2] || match[4] || "0",
+      versionNumber: match[4] || match[2] || "0",
+      platform: platform_match[0] || ""
+    };
+    if (matched.browser) {
+      browser[matched.browser] = true;
       browser.version = matched.version;
       browser.versionNumber = parseInt(matched.versionNumber, 10);
     }
-
-    if ( matched.platform ) {
-      browser[ matched.platform ] = true;
+    if (matched.platform) {
+      browser[matched.platform] = true;
     }
-
-    // These are all considered mobile platforms, meaning they run a mobile browser
-    if ( browser.android || browser.bb || browser.blackberry || browser.ipad || browser.iphone ||
-      browser.ipod || browser.kindle || browser.playbook || browser.silk || browser[ "windows phone" ]) {
+    if (browser.android || browser.bb || browser.blackberry || browser.ipad || browser.iphone || browser.ipod || browser.kindle || browser.playbook || browser.silk || browser["windows phone"]) {
       browser.mobile = true;
     }
-
-    // These are all considered desktop platforms, meaning they run a desktop browser
-    if ( browser.cros || browser.mac || browser.linux || browser.win ) {
+    if (browser.cros || browser.mac || browser.linux || browser.win) {
       browser.desktop = true;
     }
-
-    // Chrome, Opera 15+ and Safari are webkit based browsers
-    if ( browser.chrome || browser.opr || browser.safari ) {
+    if (browser.chrome || browser.opr || browser.safari || browser.msedge) {
       browser.webkit = true;
     }
-
-    // IE11 has a new token so we will assign it msie to avoid breaking changes
-    if ( browser.rv || browser.iemobile) {
-      var ie = "msie";
-
+    if (browser.rv || browser.iemobile) {
+      const ie = "msie";
       matched.browser = ie;
       browser[ie] = true;
     }
-
-    // Edge is officially known as Microsoft Edge, so rewrite the key to match
-    if ( browser.edge ) {
+    if (browser.edge) {
       delete browser.edge;
-      var msedge = "msedge";
-
-      matched.browser = msedge;
-      browser[msedge] = true;
+      const msedge_legacy = "msedge";
+      matched.browser = msedge_legacy;
+      browser[msedge_legacy] = true;
     }
-
-    // Blackberry browsers are marked as Safari on BlackBerry
-    if ( browser.safari && browser.blackberry ) {
-      var blackberry = "blackberry";
-
-      matched.browser = blackberry;
-      browser[blackberry] = true;
+    if (browser.opr && matched.browser === "opr") {
+      matched.browser = "opera";
+      browser.opera = true;
     }
-
-    // Playbook browsers are marked as Safari on Playbook
-    if ( browser.safari && browser.playbook ) {
-      var playbook = "playbook";
-
-      matched.browser = playbook;
-      browser[playbook] = true;
+    if (matched.platform) {
+      const platformName = matched.platform.toLowerCase();
+      if (platformName === "android" || platformName === "kindle" || platformName === "silk" || platformName === "blackberry" || platformName === "playbook") {
+        if (matched.browser === "safari" || matched.browser === "webkit" || (!matched.browser || matched.browser === "")) {
+          matched.browser = platformName;
+          browser[platformName] = true;
+        }
+      }
     }
-
-    // BB10 is a newer OS version of BlackBerry
-    if ( browser.bb ) {
-      var bb = "blackberry";
-
-      matched.browser = bb;
-      browser[bb] = true;
+    if (browser.bb && !browser.blackberry) {
+      browser.blackberry = true;
+      matched.browser = "blackberry";
     }
-
-    // Opera 15+ are identified as opr
-    if ( browser.opr ) {
-      var opera = "opera";
-
-      matched.browser = opera;
-      browser[opera] = true;
-    }
-
-    // Stock Android browsers are marked as Safari on Android.
-    if ( browser.safari && browser.android ) {
-      var android = "android";
-
-      matched.browser = android;
-      browser[android] = true;
-    }
-
-    // Kindle browsers are marked as Safari on Kindle
-    if ( browser.safari && browser.kindle ) {
-      var kindle = "kindle";
-
-      matched.browser = kindle;
-      browser[kindle] = true;
-    }
-
-     // Kindle Silk browsers are marked as Safari on Kindle
-    if ( browser.safari && browser.silk ) {
-      var silk = "silk";
-
-      matched.browser = silk;
-      browser[silk] = true;
-    }
-
-    // Assign the name and platform variable
     browser.name = matched.browser;
     browser.platform = matched.platform;
+    browser.uaMatch = uaMatch;
     return browser;
   }
-
-  // Run the matching process, also assign the function to the returned object
-  // for manual, jQuery-free use if desired
-  window.jQBrowser = uaMatch( window.navigator.userAgent );
-  window.jQBrowser.uaMatch = uaMatch;
-
-  // Only assign to jQuery.browser if jQuery is loaded
-  if ( jQuery ) {
-    jQuery.browser = window.jQBrowser;
+  function factory(jQuery) {
+    if (typeof window !== "undefined") {
+      window.jQBrowser = uaMatch(window.navigator.userAgent);
+      window.jQBrowser.uaMatch = uaMatch;
+      if (jQuery) {
+        jQuery.browser = window.jQBrowser;
+      }
+      return window.jQBrowser;
+    } else {
+      const browser = uaMatch();
+      browser.uaMatch = uaMatch;
+      return browser;
+    }
   }
-
-  return window.jQBrowser;
-}));
+  if (typeof window !== "undefined") {
+    factory(typeof window !== "undefined" ? window.jQuery : void 0);
+  }
+  var result = typeof window !== "undefined" ? window.jQBrowser : factory(void 0);
+  var jquery_browser_default = result;
+  return __toCommonJS(jquery_browser_exports);
+})();
