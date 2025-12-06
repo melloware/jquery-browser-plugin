@@ -269,61 +269,12 @@ Before publishing, ensure:
 
 ### Publishing to npm
 
-1. **Login to npm:**
-   ```bash
-   npm login
-   ```
-   Make sure you're logged in with an account that has access to the `@melloware` scope.
+## Publishing
 
-2. **Verify you're logged in:**
-   ```bash
-   npm whoami
-   ```
+Adjust the version in the `package.json` if necessary and commit files.
+Then simply "Publish a Release" and the workflow will handle publishing to NPM.
 
-3. **Build the package:**
-   ```bash
-   npm run build
-   ```
-
-4. **Publish the package:**
-   
-   For scoped packages, you need to publish with public access:
-   ```bash
-   npm publish --access public
-   ```
-   
-   Or configure the scope in your `.npmrc` file:
-   ```bash
-   echo "@melloware:registry=https://registry.npmjs.org/" >> .npmrc
-   echo "//registry.npmjs.org/:_authToken=YOUR_TOKEN" >> .npmrc
-   ```
-   Then publish normally:
-   ```bash
-   npm publish
-   ```
-
-5. **Verify publication:**
-   Visit https://www.npmjs.com/package/@melloware/jquery.browser to confirm the package is published.
-
-### Version Management
-
-Follow [Semantic Versioning](https://semver.org/):
-- **MAJOR** version for incompatible API changes
-- **MINOR** version for backwards-compatible functionality additions
-- **PATCH** version for backwards-compatible bug fixes
-
-Update version in `package.json`:
-```json
-{
-  "version": "1.0.1"  // or "1.1.0" or "2.0.0"
-}
-```
-
-Then rebuild and republish:
-```bash
-npm run build
-npm publish --access public
-```
+Visit https://www.npmjs.com/package/@melloware/jquery.browser to confirm the package is published.
 
 ## Browser Support
 
