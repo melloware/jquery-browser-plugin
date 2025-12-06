@@ -13,9 +13,10 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "noEmitOnError": true,
-    "removeComments": false
+    "removeComments": false,
+    "emitDeclarationOnly": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test"]
+  "include": ["src/jquery.browser.d.ts"],
+  "exclude": ["node_modules", "dist", "test", "src/**/*.js"]
 }
 
