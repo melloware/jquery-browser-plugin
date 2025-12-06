@@ -1,4 +1,6 @@
-[![NPM](https://nodei.co/npm/@melloware/jquery.browser.png)](https://www.npmjs.com/package/@melloware/jquery.browser)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/@melloware%2Fjquery.browser.svg)](https://badge.fury.io/js/@melloware%2Fjquery.browser)
+![NPM Downloads](https://img.shields.io/npm/dm/@melloware%2Fjquery.browser?color=purple)
 
 A jQuery plugin for browser detection. jQuery v1.9.1 dropped support for browser detection, and this project aims to keep the detection up-to-date. Now written in TypeScript with full type definitions and modern browser support including MS Edge.
 
