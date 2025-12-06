@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { uaMatch } from '../src/jquery.browser';
-import type { BrowserDetection } from '../src/jquery.browser';
+import { uaMatch } from './helpers';
+import type { BrowserDetection } from './helpers';
 
 // User agent test data
 const ua = {

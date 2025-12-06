@@ -1,6 +1,6 @@
 {
   "name": "@melloware/jquery.browser",
-  "version": "0.9.0-beta.1",
+  "version": "0.9.0-beta.2",
   "description": "A jQuery plugin for browser detection.",
   "license": "MIT",
   "author": "jQuery Team <http://www.github.com/jquery>",
@@ -30,10 +30,10 @@
   ],
   "scripts": {
     "build": "npm run build:types && npm run build:umd && npm run build:minify",
-    "build:types": "tsc --emitDeclarationOnly --declarationMap",
-    "build:umd": "esbuild src/jquery.browser.ts --bundle --format=iife --global-name=jQBrowser --outfile=dist/jquery.browser.js --banner:js=\"/*!\\n * jQuery Browser Plugin \\n * https://github.com/melloware/jquery-browser-plugin\\n *\\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\\n * http://jquery.org/license\\n *\\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\\n * https://github.com/melloware\\n *\\n * Released under the MIT license\\n */\" --external:jquery",
+    "build:types": "node -e \"require('fs').copyFileSync('src/jquery.browser.d.ts', 'dist/jquery.browser.d.ts')\"",
+    "build:umd": "node -e \"const fs=require('fs');const banner='/*!\\n * jQuery Browser Plugin \\n * https://github.com/melloware/jquery-browser-plugin\\n *\\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\\n * http://jquery.org/license\\n *\\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\\n * https://github.com/melloware\\n *\\n * Released under the MIT license\\n */\\n';fs.writeFileSync('dist/jquery.browser.js', banner + fs.readFileSync('src/jquery.browser.js', 'utf-8'))\"",
     "build:minify": "esbuild dist/jquery.browser.js --minify --outfile=dist/jquery.browser.min.js --banner:js=\"/*!\\n * jQuery Browser Plugin \\n * https://github.com/melloware/jquery-browser-plugin\\n *\\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\\n * http://jquery.org/license\\n *\\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\\n * https://github.com/melloware\\n *\\n * Released under the MIT license\\n */\"",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --project tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
