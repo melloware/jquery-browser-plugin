@@ -26,10 +26,10 @@ Alternatively, you can use the plugin without jQuery by using the global object 
 
 ### JavaScript
 
-Returns true if the current useragent is some version of Microsoft's Internet Explorer. Supports all IE versions including IE 11.
+Returns true if the current useragent is some version of Microsoft's Edge browser. Supports both legacy and Chromium based edge)
 
 ```javascript
-$.browser.msie;
+$.browser.msedge;
 ```
 
 Returns true if the current useragent is some version of a WebKit browser (Safari, Chrome, Opera 15+, and Chromium Edge)
