@@ -1,15 +1,32 @@
 {
   "name": "@melloware/jquery.browser",
   "version": "1.0.0",
-  "author": "Melloware <mellowaredev@gmail.com>",
+  "description": "A jQuery plugin for browser detection.",
+  "license": "MIT",
+  "author": "jQuery Team <http://www.github.com/jquery>",
   "contributors": [
     "Gabriel Cebrian <gabceb@gmail.com>",
-    "jQuery Team <https://github.com/gabceb/jquery-browser-plugin/wiki/Authors>"
+    "Melloware <mellowaredev@gmail.com>",
+    "jQuery Team <http://www.github.com/jquery>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/melloware/jquery-browser-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/melloware/jquery-browser-plugin/issues"
+  },
   "files": [
     "dist",
     "README.md",
     "MIT-LICENSE.txt"
+  ],
+  "keywords": [
+    "jquery",
+    "browser",
+    "detection",
+    "user-agent",
+    "typescript"
   ],
   "scripts": {
     "build": "npm run build:types && npm run build:umd && npm run build:minify",
@@ -21,18 +38,10 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
   },
-  "description": "A jQuery plugin for browser detection.",
+  
   "main": "dist/jquery.browser.js",
   "module": "dist/jquery.browser.js",
-  "types": "dist/jquery.browser.d.ts",
-  "repository": "git@github.com:gabceb/jquery-browser-plugin.git",
-  "keywords": [
-    "jquery",
-    "browser",
-    "detection",
-    "user-agent",
-    "typescript"
-  ],
+  "types": "dist/jquery.browser.d.ts",  
   "devDependencies": {
     "@types/jquery": "^3.5.33",
     "@types/node": "^24.10.1",
@@ -46,7 +55,6 @@
   "peerDependencies": {
     "jquery": ">=1.9.0"
   },
-  "license": "MIT",
   "engines": {
     "node": ">= 20.0.0"
   }
