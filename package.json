@@ -1,6 +1,6 @@
 {
   "name": "@melloware/jquery.browser",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.0",
   "description": "A jQuery plugin for browser detection.",
   "license": "MIT",
   "author": "jQuery Team <http://www.github.com/jquery>",
@@ -38,10 +38,9 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
   },
-  
   "main": "dist/jquery.browser.js",
   "module": "dist/jquery.browser.js",
-  "types": "dist/jquery.browser.d.ts",  
+  "types": "dist/jquery.browser.d.ts",
   "devDependencies": {
     "@types/jquery": "^3.5.33",
     "@types/node": "^24.10.1",
