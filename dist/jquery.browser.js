@@ -1,10 +1,16 @@
-/*!\n * jQuery Browser Plugin 1.0.0\n * https://github.com/gabceb/jquery-browser-plugin\n *\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\n * http://jquery.org/license\n *\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\n * https://github.com/gabceb\n *\n * Released under the MIT license\n */
+/*!\n * jQuery Browser Plugin \n * https://github.com/melloware/jquery-browser-plugin\n *\n * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors\n * http://jquery.org/license\n *\n * Modifications Copyright 2015 Gabriel Cebrian, 2025 Melloware\n * https://github.com/melloware\n *\n * Released under the MIT license\n */
 "use strict";
 var jQBrowser = (() => {
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+    get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+  }) : x)(function(x) {
+    if (typeof require !== "undefined") return require.apply(this, arguments);
+    throw Error('Dynamic require of "' + x + '" is not supported');
+  });
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -23,6 +29,7 @@ var jQBrowser = (() => {
   var jquery_browser_exports = {};
   __export(jquery_browser_exports, {
     default: () => jquery_browser_default,
+    factory: () => factory,
     uaMatch: () => uaMatch
   });
   function uaMatch(ua) {
@@ -122,10 +129,24 @@ var jQBrowser = (() => {
       return browser;
     }
   }
-  if (typeof window !== "undefined") {
-    factory(typeof window !== "undefined" ? window.jQuery : void 0);
-  }
-  var result = typeof window !== "undefined" ? window.jQBrowser : factory(void 0);
-  var jquery_browser_default = result;
+  (function(factoryFunc) {
+    const isESModule = typeof module !== "undefined" && module.exports && Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(module, "exports")?.writable === false;
+    if (!isESModule) {
+      if (typeof define === "function" && define.amd) {
+        define(["jquery"], function($) {
+          return factoryFunc($);
+        });
+      } else if (typeof module === "object" && typeof module.exports === "object") {
+        try {
+          module.exports = factoryFunc(__require("jquery"));
+        } catch (e) {
+          factoryFunc(typeof window !== "undefined" ? window.jQuery : void 0);
+        }
+      } else {
+        factoryFunc(typeof window !== "undefined" ? window.jQuery : void 0);
+      }
+    }
+  })(factory);
+  var jquery_browser_default = factory;
   return __toCommonJS(jquery_browser_exports);
 })();

@@ -67,7 +67,7 @@ declare global {
  * @param ua - Optional user agent string. If not provided, uses navigator.userAgent
  * @returns Browser detection object
  */
-export function uaMatch(ua?: string): BrowserDetection {
+function uaMatch(ua?: string): BrowserDetection {
   // If an UA is not provided, default to the current browser UA.
   if (ua === undefined) {
     if (typeof window !== 'undefined' && window.navigator) {
@@ -261,16 +261,50 @@ function factory(jQuery?: JQueryStatic): BrowserDetection {
   }
 }
 
-// Execute factory immediately for browser globals
-// When bundled with esbuild as IIFE, this will expose window.jQBrowser
-if (typeof window !== 'undefined') {
-  factory(typeof window !== 'undefined' ? (window as any).jQuery : undefined);
-}
+// Declare AMD and CommonJS globals for TypeScript
+declare const define: {
+  (deps: string[], factory: (...args: any[]) => any): void;
+  amd?: boolean;
+} | undefined;
 
-// Export for module systems (ES modules, CommonJS)
-const result = typeof window !== 'undefined' 
-  ? (window as any).jQBrowser 
-  : factory(undefined);
+declare const module: {
+  exports: any;
+} | undefined;
 
-export default result;
+declare function require(id: string): any;
+
+// UMD wrapper - matches original pattern exactly
+// Only execute in non-ES module environments (browser, AMD, CommonJS)
+// In ES module environments, exports are handled by the export statements below
+(function (factoryFunc: (jQuery?: JQueryStatic) => BrowserDetection) {
+  // Check if we're in an ES module environment
+  // In ES modules, module.exports might be read-only, so we check for that
+  const isESModule = typeof module !== 'undefined' && module.exports && 
+    Object.getOwnPropertyDescriptor && 
+    Object.getOwnPropertyDescriptor(module, 'exports')?.writable === false;
+  
+  if (!isESModule) {
+    if (typeof define === 'function' && define.amd) {
+      // AMD. Register as an anonymous module.
+      define(['jquery'], function ($: JQueryStatic) {
+        return factoryFunc($);
+      });
+    } else if (typeof module === 'object' && typeof module.exports === 'object') {
+      // CommonJS environment
+      try {
+        module.exports = factoryFunc(require('jquery'));
+      } catch (e) {
+        // If require fails or module.exports is read-only, just execute factory for browser
+        factoryFunc(typeof window !== 'undefined' ? (window as any).jQuery : undefined);
+      }
+    } else {
+      // Browser globals
+      factoryFunc(typeof window !== 'undefined' ? (window as any).jQuery : undefined);
+    }
+  }
+}(factory));
+
+// Export for ES modules and TypeScript (for development/testing)
+export { uaMatch, factory };
+export default factory;
 

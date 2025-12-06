@@ -55,7 +55,11 @@ declare global {
  * @param ua - Optional user agent string. If not provided, uses navigator.userAgent
  * @returns Browser detection object
  */
-export declare function uaMatch(ua?: string): BrowserDetection;
-declare const result: any;
-export default result;
+declare function uaMatch(ua?: string): BrowserDetection;
+/**
+ * Factory function for module systems (AMD, CommonJS, Browser globals)
+ */
+declare function factory(jQuery?: JQueryStatic): BrowserDetection;
+export { uaMatch, factory };
+export default factory;
 //# sourceMappingURL=jquery.browser.d.ts.map
