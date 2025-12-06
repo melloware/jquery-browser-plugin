@@ -11,7 +11,6 @@ export interface BrowserDetection {
   opr?: boolean;
   opera?: boolean;
   msedge?: boolean;
-  edge?: boolean;
   rv?: boolean;
   iemobile?: boolean;
   
